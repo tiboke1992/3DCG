@@ -28,4 +28,8 @@ public class Point {
 		z += v.z;
 	}
 	
+	public Vector subtract(Point p){
+		return new Vector(this.x-p.x,this.y-p.y,this.z-p.z);
+	}
+	
 }

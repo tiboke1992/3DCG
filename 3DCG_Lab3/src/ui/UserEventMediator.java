@@ -18,6 +18,14 @@ public class UserEventMediator extends KeyAdapter {
 			camera.forward();
 		}else if(e.getKeyChar() == 'b'){
 			camera.backward();
+		}else if(e.getExtendedKeyCode() == 38){
+			camera.up();
+		}else if(e.getExtendedKeyCode() == 40){
+			camera.down();
+		}else if(e.getExtendedKeyCode() == 37){
+			camera.left();
+		}else if(e.getExtendedKeyCode() == 39){
+			camera.right();
 		}
 	}
 	

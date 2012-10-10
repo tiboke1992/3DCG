@@ -7,10 +7,11 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 
 import util.Point;
+import util.Quaternion;
 import util.Vector;
 
 public class Camera {
-
+	public static final double ROTATION = 0.5;
 	public Point eye;
 	public Point look;
 	public Vector up;
@@ -43,12 +44,48 @@ public class Camera {
 		glu.gluLookAt(eye.x, eye.y, eye.z, look.x, look.y, look.z, v.x, v.y,
 				v.z);
 	}
-	
-	public void forward(){
+
+	public void forward() {
 		eye.add(n.getReverse());
 	}
-	
-	public void backward(){
+
+	public void backward() {
 		eye.add(n);
+	}
+
+	public void up() {
+		rotateUpOrDown(-ROTATION);
+	}
+
+	public void down() {
+		rotateUpOrDown(ROTATION);
+	}
+	
+	public void left(){
+		rotateLeftOrRight(ROTATION);
+	}
+	
+	public void right(){
+		rotateLeftOrRight(-ROTATION);
+	}
+
+	private void rotateUpOrDown(double angle) {
+		Quaternion q = new Quaternion(eye);
+		Quaternion rotate = new Quaternion(angle, u);
+		Quaternion theEye = rotate.mult(q).mult(rotate.conjugate());
+		this.eye = new Point(theEye.b, theEye.c, theEye.d);
+		this.n = this.eye.subtract(this.look);
+		this.n.normalize();
+		this.v = n.getCross(this.u);
+	}
+	
+	private void rotateLeftOrRight(double angle){
+		Quaternion q = new Quaternion(this.eye);
+		Quaternion rotation = new Quaternion(angle, this.v);
+		Quaternion theEye = rotation.mult(q).mult(rotation.conjugate());
+		this.eye = new Point(theEye.b,theEye.c,theEye.d);
+		this.n = this.eye.subtract(this.look);
+		this.n.normalize();
+		this.u = this.v.getCross(this.n);
 	}
 }
