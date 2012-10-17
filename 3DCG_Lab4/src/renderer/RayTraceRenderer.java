@@ -46,8 +46,8 @@ public class RayTraceRenderer extends Renderer {
 		
 		// to do: implement
 		//v1
-		Vector v1 = camera.u;
-		Vector temp1 = camera.v;
+		Vector v1 = new Vector(camera.u);
+		Vector temp1 = new Vector(camera.v);
 		float t1 = camera.width/2;
 		float t2 = camera.height/2;
 		v1.mult(-(t1));
@@ -57,7 +57,7 @@ public class RayTraceRenderer extends Renderer {
 		//v2
 		
 		//V3
-		Vector v3 = camera.n;
+		Vector v3 = new Vector(camera.n);
 		v3.mult(-camera.distance);
 		v3.add(v1);
 		
@@ -67,18 +67,18 @@ public class RayTraceRenderer extends Renderer {
 		for(int r = 0 ; r < this.nRows ; r++){
 			for(int c = 0 ; c < this.nCols ; c++){
 				//lingse deel
-				Vector v2 = camera.u;
+				Vector v2 = new Vector(camera.u);
 				v2.mult(c);
 				float widthPixel = camera.width / this.nCols;
 				v2.mult(widthPixel);
 				//RECHTSE DEEL
-				Vector temp = camera.v;
+				Vector temp = new Vector(camera.v);
 				temp.mult(r);
 				float heightPixel = camera.height/this.nRows;
 				temp.mult(heightPixel);
 				v2.add(temp.getReverse());
 				//v2 is klaar
-				Vector direction = v3;
+				Vector direction = new Vector(v3);
 				direction.add(v2);
 				ray.dir = direction;
 				col.set(rayTracer.shade(ray));

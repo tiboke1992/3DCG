@@ -20,7 +20,11 @@ public class RayTracer {
 	public Colour shade(Ray ray) {
 		Colour c = new Colour(255,0,0);
 		Intersection i = this.getBestIntersection(ray);
-		
+		if(i.getNumHits() == 0){
+			c = scene.getBackGround();
+		}else{
+			c = new Colour(255,0,0);
+		}
 		return c;
 	}
 
@@ -31,8 +35,10 @@ public class RayTracer {
 		for (GeomObj object : objects) {
 			Intersection i = object.intersection(ray);
 			if(i.getNumHits() != 0){
-				//beste berekenen
-				System.out.println("Test");
+				if(i.getBestHitTime()<max){
+					max = i.getBestHitTime();
+					best = i;
+				}
 			}
 			
 		}
