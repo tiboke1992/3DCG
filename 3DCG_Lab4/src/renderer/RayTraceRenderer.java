@@ -47,10 +47,12 @@ public class RayTraceRenderer extends Renderer {
 		// to do: implement
 		//v1
 		Vector v1 = camera.u;
-		v1.mult(-(camera.width/2));
-		Vector temp2 = camera.v;
-		temp2.mult(camera.height/2);
-		v1.add(temp2);
+		Vector temp1 = camera.v;
+		float t1 = camera.width/2;
+		float t2 = camera.height/2;
+		v1.mult(-(t1));
+		temp1.mult(t2);
+		v1.add(temp1);
 		
 		//v2
 		
@@ -63,7 +65,26 @@ public class RayTraceRenderer extends Renderer {
 		Colour col = new Colour();
 		
 		for(int r = 0 ; r < this.nRows ; r++){
-			//hier zit ik 
+			for(int c = 0 ; c < this.nCols ; c++){
+				//lingse deel
+				Vector v2 = camera.u;
+				v2.mult(c);
+				float widthPixel = camera.width / this.nCols;
+				v2.mult(widthPixel);
+				//RECHTSE DEEL
+				Vector temp = camera.v;
+				temp.mult(r);
+				float heightPixel = camera.height/this.nRows;
+				temp.mult(heightPixel);
+				v2.add(temp.getReverse());
+				//v2 is klaar
+				Vector direction = v3;
+				direction.add(v2);
+				ray.dir = direction;
+				col.set(rayTracer.shade(ray));
+				gl.glColor3f(col.r, col.g, col.b);
+				gl.glRecti(c, r, c+1, r+1);
+			}
 		}
 				
 		gl.glFlush();
