@@ -2,6 +2,7 @@ package scene;
 
 import geomobj.GeomObj;
 import geomobj.Shape;
+import geomobj.Sphere;
 import geomobj.Square;
 
 import java.io.File;
@@ -49,7 +50,10 @@ public class SceneFactory {
 		
 		if(token.equals(Token.SQUARE.toString())){
 			shape = new Square();
-		} else {
+		}else if(token.equals(Token.SPHERE.toString())){
+			shape = new Sphere();
+		} 
+		else {
 			throw new IllegalStateException("The token " + token + " is not supported by the scene description language!");
 		}
 		
